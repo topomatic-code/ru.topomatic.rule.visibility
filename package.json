@@ -1,0 +1,184 @@
+{
+    "$schema": "node_modules/albatros/schema.json",
+    "name": "ru.topomatic.rule.visibility",
+    "displayName": "Проверка видимости",
+    "description": "Плагин для проверки видимости вдоль трасс",
+    "version": "1.0.0",
+    "main": "src/index.ts",
+    "scripts": {
+        "serve": "albatros-cli serve",
+        "build": "albatros-cli build"
+    },
+    "keywords": [
+        "category::rule"
+    ],
+    "author": {
+        "name": "ООО НПФ \"Топоматик\"",
+        "email": "support@topomatic.ru",
+        "url": "https://topomatic.ru"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/topomatic-code/ru.topomatic.rule.visibility.git"
+    },
+    "icon": "favicon",
+    "license": "MIT",
+    "homepage": "https://topomatic-code.github.io/ru.topomatic.rule.visibility/",
+    "devDependencies": {
+        "albatros": "^1.3.5"
+    },
+    "albatros": {
+        "rules": {
+            "rule:visibility:alignment": {
+                "app": "wdx",
+                "title": "Видимость вдоль трассы",
+                "cmd": "rule:visibility:alignment",
+                "description": "Правило проверки видимости вдоль трассы"
+            },
+            "rule:visibility:objects": {
+                "app": "wdx",
+                "title": "Видимость объектов",
+                "cmd": "rule:visibility:objects",
+                "description": "Правило проверки видимости объектов"
+            }
+        },
+        "properties": {
+            "rule:visibility:alignment": [
+                {
+                    "cmd": "ru.albatros.wdx/property:filter",
+                    "label": "Фильтр трасс",
+                    "field": "alignmentFilter",
+                    "description": "Фильтр слоев, на которых расположены проверяемые трассы"
+                },
+                {
+                    "cmd": "ru.albatros.wdx/property:filter",
+                    "label": "Фильтр препятствия",
+                    "field": "obstacleFilter",
+                    "description": "Фильтр слоев, определяющий набор элементов модели, которые проверяются на ограничение видимости между точкой зрения и целевым объектом"
+                },
+                {
+                    "cmd": "property:float",
+                    "label": "Смещение наблюдателя",
+                    "field": "viewPointOffset",
+                    "units": "м",
+                    "description": "Величина, определяющая плановое смещение глаз наблюдателя по нормали к трассе, в метрах"
+                },
+                {
+                    "cmd": "property:float",
+                    "label": "Высота наблюдателя",
+                    "field": "viewPointElevation",
+                    "units": "м",
+                    "description": "Величина, определяющая уровень глаз наблюдателя относительно профиля трассы, в метрах"
+                },
+                {
+                    "cmd": "property:float",
+                    "label": "Смещение целевого объекта",
+                    "field": "objectOffset",
+                    "units": "м",
+                    "description": "Величина, определяющая плановое смещение целевого объекта по нормали к трассе, в метрах"
+                },
+                {
+                    "cmd": "property:float",
+                    "label": "Высота целевого объекта",
+                    "field": "objectElevation",
+                    "units": "м",
+                    "description": "Величина, определяющая высоту верхней точки целевого объекта относительно профиля трассы, в метрах"
+                },
+                {
+                    "cmd": "property:enum",
+                    "values": {
+                        "FORWARD": "По пикетажу",
+                        "BACKWARD": "Против пикетажа"
+                    },
+                    "label": "Направление движения",
+                    "field": "direction",
+                    "description": "Параметр, отвечающий за выбор направления движения при расчете видимости"
+                },
+                {
+                    "cmd": "property:float",
+                    "label": "Граница видимости",
+                    "field": "viewDistance",
+                    "units": "м",
+                    "description": "Величина, определяющая требуемое расстояние прямой видимости в метрах целевого объекта"
+                },
+                {
+                    "cmd": "property:float",
+                    "label": "Шаг расчета видимости",
+                    "field": "viewPointStep",
+                    "units": "м",
+                    "description": "Величина, определяющая с какой точностью будет рассчитана видимости, в метрах"
+                },
+                {
+                    "cmd": "property:float",
+                    "label": "Шаг целевого объекта",
+                    "field": "objectStep",
+                    "units": "м",
+                    "description": "Величина, определяющая с каким шагом будет перемещаться целевой объект вдоль трассы относительно наблюдателя, в метрах"
+                }
+            ],
+            "rule:visibility:objects": [
+                {
+                    "cmd": "ru.albatros.wdx/property:filter",
+                    "label": "Фильтр трасс",
+                    "field": "alignmentFilter",
+                    "description": "Фильтр слоев, на которых расположены проверяемые трассы"
+                },
+                {
+                    "cmd": "ru.albatros.wdx/property:filter",
+                    "label": "Фильтр объектов видимости",
+                    "field": "objectFilter",
+                    "description": "Фильтр слоев, на которых расположены объекты, видимость которых требуется проверить"
+                },
+                {
+                    "cmd": "property:enum",
+                    "values": {
+                        "FORWARD": "По пикетажу",
+                        "BACKWARD": "Против пикетажа"
+                    },
+                    "label": "Направление движения",
+                    "field": "direction",
+                    "description": "Параметр, отвечающий за выбор направления движения при расчете видимости"
+                },
+                {
+                    "cmd": "property:enum",
+                    "values": {
+                        "LEFT": "Слева",
+                        "RIGHT": "Справа",
+                        "BOTH": "С обеих сторон"
+                    },
+                    "label": "Сторонность расположения объектов",
+                    "field": "side",
+                    "description": "Параметр, позволяющий учитывать только объекты, находящиеся с указанной стороны трассы, в зависимости от направления движения"
+                },
+                {
+                    "cmd": "property:float",
+                    "label": "Смещение наблюдателя",
+                    "units": "м",
+                    "field": "viewPointOffset",
+                    "description": "Величина, определяющая плановое смещение глаз наблюдателя по нормали к трассе, в метрах"
+                },
+                {
+                    "cmd": "property:float",
+                    "label": "Высота наблюдателя",
+                    "units": "м",
+                    "field": "viewPointElevation",
+                    "description": "Величина, определяющая уровень глаз наблюдателя относительно профиля трассы, в метрах"
+                },
+                {
+                    "cmd": "property:float",
+                    "label": "Шаг расчета видимости",
+                    "units": "м",
+                    "field": "viewPointStep",
+                    "description": "Величина, определяющая с какой точностью будет рассчитана видимости, в метрах"
+                },
+                {
+                    "cmd": "property:float",
+                    "label": "Граница видимости",
+                    "units": "м",
+                    "field": "viewDistance",
+                    "description": "Величина, определяющая максимальное расстояние в метрах, на котором объекты видимости должны быть видны"
+                }
+            ]
+        }
+    }
+}
